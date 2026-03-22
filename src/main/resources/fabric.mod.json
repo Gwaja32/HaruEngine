@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "haruengine",
+  "version": "${version}",
+  "name": "HaruEngine",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/user/HaruEngine"
+  },
+  "license": "MIT",
+  "environment": "server",
+  "entrypoints": {
+    "client": [
+    ],
+    "main": [
+      "kr.haruserver.haruengine.HaruEngine"
+    ]
+  },
+  "mixins": [
+    "haruengine.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

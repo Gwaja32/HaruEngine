@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "kr.haruserver.haruengine.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "entity.EntitySleepMixin",
+    "entity.AsyncPathfindingMixin",
+    "entity.ParallelCollisionMixin",
+    "entity.MobEntityMixin",
+    "entity.VillagerEntityMixin",
+    "entity.LivingEntityCollisionMixin",
+    "entity.EntityHaruDataMixin",
+    "entity.EntityWaterStateMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
