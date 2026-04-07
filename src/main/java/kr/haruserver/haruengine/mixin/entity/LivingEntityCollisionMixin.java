@@ -1,8 +1,8 @@
 package kr.haruserver.haruengine.mixin.entity;
 
 import kr.haruserver.haruengine.util.EntityFilter;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -27,7 +27,7 @@ public abstract class LivingEntityCollisionMixin {
      * @author LeeGwangSu
      * @reason 가축 9종이 다른 엔티티를 밀어내는 시도 차단 (AI 틱 등에서 호출)
      */
-    @Inject(method = "pushAway", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "doPush", at = @At("HEAD"), cancellable = true)
     private void haru$stopPushingAway(Entity entity, CallbackInfo ci) {
         if (EntityFilter.isNoPhysicsTarget((Entity) (Object) this)) {
             ci.cancel();
@@ -38,7 +38,7 @@ public abstract class LivingEntityCollisionMixin {
      * @author LeeGwangSu
      * @reason 상대방이 밀려고 할 때 발생하는 연산 체인 절단
      */
-    @Inject(method = "pushAwayFrom", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "push(Lnet/minecraft/world/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
     private void haru$stopBeingPushed(Entity entity, CallbackInfo ci) {
         if (EntityFilter.isNoPhysicsTarget((Entity) (Object) this)) {
             ci.cancel();

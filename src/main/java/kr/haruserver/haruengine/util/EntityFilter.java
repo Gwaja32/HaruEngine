@@ -1,8 +1,8 @@
 package kr.haruserver.haruengine.util;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import java.util.Set;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 
 public class EntityFilter {
 

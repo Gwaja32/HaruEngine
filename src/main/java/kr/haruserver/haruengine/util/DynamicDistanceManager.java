@@ -1,9 +1,9 @@
 package kr.haruserver.haruengine.util;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 
 public class DynamicDistanceManager {
 
@@ -21,10 +21,10 @@ public class DynamicDistanceManager {
     }
 
     private static void onTick(MinecraftServer server) {
-        if (server.getPlayerManager().getSimulationDistance() != 5) {
-            server.getPlayerManager().setSimulationDistance(5);
+        if (server.getPlayerList().getSimulationDistance() != 5) {
+            server.getPlayerList().setSimulationDistance(5);
         }
-        int playerCount = server.getPlayerManager().getPlayerList().size();
+        int playerCount = server.getPlayerList().getPlayers().size();
         int targetDistance = (playerCount >= THRESHOLD_PLAYERS) ? OPTIMIZED_DISTANCE : DEFAULT_DISTANCE;
 
         // 1. 상태 변화 감지 (목표 거리가 현재 설정과 다를 때)
@@ -35,7 +35,7 @@ public class DynamicDistanceManager {
             String message = (targetDistance == OPTIMIZED_DISTANCE)
                     ? "[Haru] 30초 뒤, 최적화를 위해 렌더 거리가 하향 조정됩니다."
                     : "[Haru] 30초 뒤, 렌더 거리가 다시 상향 조정됩니다.";
-            broadcast(server, message, Formatting.YELLOW);
+            broadcast(server, message, ChatFormatting.YELLOW);
         }
 
         // 2. 카운트다운 진행 중 조건 변화 체크 (취소 로직)
@@ -45,7 +45,7 @@ public class DynamicDistanceManager {
                 String cancelMessage = (pendingDistance == OPTIMIZED_DISTANCE)
                         ? "[Haru] 최적화를 위한 렌더 거리 하향 조정이 취소되었습니다."
                         : "[Haru] 렌더 거리 상향 조정이 취소되었습니다.";
-                broadcast(server, cancelMessage, Formatting.RED);
+                broadcast(server, cancelMessage, ChatFormatting.RED);
 
                 reset();
                 return;
@@ -64,10 +64,10 @@ public class DynamicDistanceManager {
 
     private static void applyDistance(MinecraftServer server, int distance) {
         // 서버 렌더 거리 및 시뮬레이션 거리 설정
-        server.getPlayerManager().setViewDistance(distance);
+        server.getPlayerList().setViewDistance(distance);
 
         String completeMessage = "[Haru] 서버의 렌더 거리가 " + distance + "으로 변경되었습니다.";
-        broadcast(server, completeMessage, Formatting.GREEN);
+        broadcast(server, completeMessage, ChatFormatting.GREEN);
     }
 
     private static void reset() {
@@ -75,9 +75,9 @@ public class DynamicDistanceManager {
         countdown = -1;
     }
 
-    private static void broadcast(MinecraftServer server, String message, Formatting color) {
-        server.getPlayerManager().broadcast(
-                Text.literal(message).formatted(color),
+    private static void broadcast(MinecraftServer server, String message, ChatFormatting color) {
+        server.getPlayerList().broadcastSystemMessage(
+                Component.literal(message).withStyle(color),
                 false
         );
     }

@@ -1,11 +1,11 @@
 package kr.haruserver.haruengine.mixin.entity;
 
 import kr.haruserver.haruengine.util.EntityFilter;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -18,8 +18,8 @@ import java.util.List;
 @Mixin(Entity.class)
 public abstract class ParallelCollisionMixin {
 
-    @Invoker("adjustMovementForCollisions")
-    public static Vec3d invokeVanillaAdjust(Vec3d movement, Box entityBoundingBox, List<VoxelShape> collisions) {
+    @Invoker("collideWithShapes")
+    public static Vec3 invokeVanillaAdjust(Vec3 movement, AABB entityBoundingBox, List<VoxelShape> collisions) {
         throw new AssertionError();
     }
 
@@ -39,7 +39,7 @@ public abstract class ParallelCollisionMixin {
      * @author LeeGwangSu
      * @reason 가축 9종이 다른 엔티티와 충돌 판정을 갖지 않도록 설정 (isCollidable)
      */
-    @Inject(method = "isCollidable", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "canBeCollidedWith", at = @At("HEAD"), cancellable = true)
     private void haru$disableCollidable(CallbackInfoReturnable<Boolean> cir) {
         if (EntityFilter.isNoPhysicsTarget((Entity) (Object) this)) {
             cir.setReturnValue(false);
@@ -51,7 +51,7 @@ public abstract class ParallelCollisionMixin {
      * @reason [핵심 수정] 병렬 엔진을 제거하고 물리 연산 부하 자체를 관리
      */
     @Overwrite
-    public static Vec3d adjustMovementForCollisions(Entity entity, Vec3d movement, Box entityBoundingBox, World world, List<VoxelShape> collisions) {
+    public static Vec3 collideBoundingBox(Entity entity, Vec3 movement, AABB entityBoundingBox, Level world, List<VoxelShape> collisions) {
         // 1. [병목 해결] 병렬 처리를 위해 CompletableFuture를 생성하던 모든 과정을 삭제했습니다.
         // 2. [물리 최적화] 만약 충돌 체크 대상(VoxelShape)이 너무 많으면(예: 128개 이상),
         // 이는 보통 복잡한 지형이나 겹친 엔티티 때문입니다.

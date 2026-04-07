@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "entity.EntitySleepMixin",
-    "entity.AsyncPathfindingMixin",
     "entity.ParallelCollisionMixin",
     "entity.MobEntityMixin",
     "entity.VillagerEntityMixin",
