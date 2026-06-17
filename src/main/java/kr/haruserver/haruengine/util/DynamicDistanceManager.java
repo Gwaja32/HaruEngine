@@ -1,9 +1,13 @@
 package kr.haruserver.haruengine.util;
 
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.ChatFormatting;
+import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.permissions.PermissionLevel;
 
 public class DynamicDistanceManager {
 
@@ -21,6 +25,8 @@ public class DynamicDistanceManager {
     }
 
     private static void onTick(MinecraftServer server) {
+        if (!ConfigManager.data.enableDynamicDistance) return;
+
         if (server.getPlayerList().getSimulationDistance() != 5) {
             server.getPlayerList().setSimulationDistance(5);
         }

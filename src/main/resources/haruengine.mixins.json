@@ -10,7 +10,11 @@
     "entity.VillagerEntityMixin",
     "entity.LivingEntityCollisionMixin",
     "entity.EntityHaruDataMixin",
-    "entity.EntityWaterStateMixin"
+    "entity.EntityWaterStateMixin",
+    "entity.WitherSkullMixin",
+    "entity.WitherBossMixin",
+    "network.ChunkMapMixin",
+    "network.GradualLoadingMixin"
   ],
   "client": [
   ],

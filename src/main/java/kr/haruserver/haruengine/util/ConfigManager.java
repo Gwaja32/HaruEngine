@@ -15,7 +15,15 @@ public class ConfigManager {
     public static ConfigData data = new ConfigData();
 
     public static class ConfigData {
+        // 렌더 거리 설정
         public boolean enableDynamicDistance = true; // 기본값 true
+
+        // 레버 제한 설정
+        public boolean enableLeverLimit = true;
+        public int maxLeverInteractionsPerSecond = 5;
+
+        // 위더 높이 제한 설정
+        public double maxWitherY = 120.0;
     }
 
     public static void load() {

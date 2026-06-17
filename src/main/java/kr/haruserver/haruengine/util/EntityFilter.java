@@ -3,27 +3,28 @@ package kr.haruserver.haruengine.util;
 import java.util.Set;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 
 public class EntityFilter {
 
     // 초기화 시에만 사용하는 내부용 셋
     private static final Set<EntityType<?>> OPT_SET = Set.of(
-            EntityType.CHICKEN, EntityType.COW, EntityType.PIG, EntityType.RABBIT,
-            EntityType.SHEEP, EntityType.MOOSHROOM, EntityType.TROPICAL_FISH,
-            EntityType.SALMON, EntityType.COD, EntityType.BAT,
-            EntityType.SQUID, EntityType.GLOW_SQUID,
-            EntityType.HAPPY_GHAST, EntityType.PHANTOM
+            EntityTypes.CHICKEN, EntityTypes.COW, EntityTypes.PIG, EntityTypes.RABBIT,
+            EntityTypes.SHEEP, EntityTypes.MOOSHROOM, EntityTypes.TROPICAL_FISH,
+            EntityTypes.SALMON, EntityTypes.COD, EntityTypes.BAT,
+            EntityTypes.SQUID, EntityTypes.GLOW_SQUID,
+            EntityTypes.HAPPY_GHAST, EntityTypes.PHANTOM
     );
 
     private static final Set<EntityType<?>> PHYS_SET = Set.of(
-            EntityType.CHICKEN, EntityType.COW, EntityType.PIG, EntityType.RABBIT,
-            EntityType.SHEEP, EntityType.MOOSHROOM, EntityType.TROPICAL_FISH,
-            EntityType.SALMON, EntityType.COD,
-            EntityType.SQUID, EntityType.GLOW_SQUID
+            EntityTypes.CHICKEN, EntityTypes.COW, EntityTypes.PIG, EntityTypes.RABBIT,
+            EntityTypes.SHEEP, EntityTypes.MOOSHROOM, EntityTypes.TROPICAL_FISH,
+            EntityTypes.SALMON, EntityTypes.COD,
+            EntityTypes.SQUID, EntityTypes.GLOW_SQUID
     );
 
     private static final Set<EntityType<?>> PARA_SET = Set.of(
-            EntityType.HAPPY_GHAST, EntityType.PHANTOM, EntityType.BAT
+            EntityTypes.HAPPY_GHAST, EntityTypes.PHANTOM, EntityTypes.BAT
     );
 
     /**
