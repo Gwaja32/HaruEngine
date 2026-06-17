@@ -17,7 +17,7 @@ public abstract class EntityWaterStateMixin {
      * @author LeeGwangSu
      * @reason 가축 9종의 수중 상태 체크 빈도를 낮춰 블록 쿼리 랙(WaterState) 해결
      */
-    @Inject(method = "updateInWaterStateAndDoFluidPushing", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "updateFluidInteraction", at = @At("HEAD"), cancellable = true)
     private void haru$optimizedWaterState(CallbackInfoReturnable<Boolean> cir) {
         Entity self = (Entity) (Object) this;
 
