@@ -4,28 +4,26 @@ import kr.haruserver.haruengine.util.ConfigManager;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WitherBoss.class)
 public abstract class WitherBossMixin {
-
-    @Redirect(
+    @ModifyArg(
             method = "aiStep",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/boss/wither/WitherBoss;getY()D")
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/boss/wither/WitherBoss;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"),
+            index = 0
     )
-    private double redirectGetY(WitherBoss instance) {
-        double currentY = instance.getY();
-        // 높이 제한 로직 적용
-        if (currentY > ConfigManager.data.maxWitherY) {
-            // Y좌표를 강제로 최대치로 고정하여, 위더가 더 위로 올라가려는 로직을 무력화
-            return ConfigManager.data.maxWitherY;
+    private Vec3 limitWitherMovement(Vec3 movement) {
+        WitherBoss wither = (WitherBoss) (Object) this;
+
+        // 현재 높이가 제한을 넘었고, 상승 중(movement.y > 0)이라면
+        if (wither.getY() > ConfigManager.data.maxWitherY && movement.y > 0) {
+            // Y 속도만 0으로 고정하고 X, Z는 그대로 유지
+            return new Vec3(movement.x, 0.0, movement.z);
         }
-        return currentY;
+        return movement;
     }
 }

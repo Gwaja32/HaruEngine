@@ -23,7 +23,7 @@ public class CommandManager {
                     // 통합 콘피그 리로드
                     .then(Commands.literal("reload")
                             .executes(context -> {
-                                ConfigManager.load();
+                                ConfigManager.reload();
                                 context.getSource().sendSuccess(() -> Component.literal("[HaruEngine] Config가 리로드 되었습니다."), false);
                                 return 1;
                             })

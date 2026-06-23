@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Random;
+
 @Mixin(ServerPlayer.class)
 public abstract class GradualLoadingMixin {
 
@@ -21,21 +23,22 @@ public abstract class GradualLoadingMixin {
         ChunkMapAccessor accessor = (ChunkMapAccessor) chunkMap;
 
         int targetDistance = server.getPlayerList().getViewDistance();
-        int steps = Math.max(1, targetDistance - 2);
 
         // 별도의 스레드 시작
         new Thread(() -> {
             try {
                 // 1. 처음엔 아주 좁게 로딩
-                accessor.setViewDistanceForce(2);
+                accessor.setViewDistanceForce(0);
                 // 메인 서버 스레드에서 실행되도록 요청
                 server.execute(() -> accessor.invokeUpdatePlayerStatus(player, true));
 
-                for (int i = 1; i <= steps; i++) {
+                for (int i = 1; i <= targetDistance; i++) {
+                    Random random = new Random();
+                    int r = random.nextInt(1500, 2001);
                     // 각 단계마다 2초(2000ms)씩 강제 대기
-                    Thread.sleep(2000);
+                    Thread.sleep(r);
 
-                    final int currentDistance = 2 + i;
+                    final int currentDistance = i;
 
                     // 메인 서버 스레드에서 실행
                     server.execute(() -> {

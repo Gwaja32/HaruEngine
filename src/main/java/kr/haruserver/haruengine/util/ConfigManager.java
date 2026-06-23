@@ -8,6 +8,8 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static kr.haruserver.haruengine.HaruEngine.LOGGER;
+
 public class ConfigManager {
     private static final Path PATH = Path.of("config/haru_engine/config.json");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -36,6 +38,11 @@ public class ConfigManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void reload() {
+        load();
+        LOGGER.info("[HaruEngine] Config reloaded from disk.");
     }
 
     public static void save() {
