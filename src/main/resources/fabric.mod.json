@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "haruengine",
+  "id": "libertyengine",
   "version": "${version}",
-  "name": "HaruEngine",
+  "name": "LibertyEngine",
   "description": "",
   "authors": [],
   "contact": {
-    "repo": "https://github.com/user/HaruEngine"
+    "repo": "https://github.com/user/LibertyEngine"
   },
   "license": "MIT",
   "environment": "server",
@@ -14,11 +14,11 @@
     "client": [
     ],
     "main": [
-      "kr.haruserver.haruengine.HaruEngine"
+      "org.libertywild.libertyengine.LibertyEngine"
     ]
   },
   "mixins": [
-    "haruengine.mixins.json"
+    "libertyengine.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
