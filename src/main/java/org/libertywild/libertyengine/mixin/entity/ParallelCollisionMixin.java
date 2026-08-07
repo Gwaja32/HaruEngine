@@ -29,8 +29,13 @@ public abstract class ParallelCollisionMixin {
      */
     @Inject(method = "isPushable", at = @At("HEAD"), cancellable = true)
     private void liberty$disablePushable(CallbackInfoReturnable<Boolean> cir) {
+        Entity thisEntity = (Entity) (Object) this;
+
+        boolean isChunSik = thisEntity.hasCustomName() && "춘식이".equals(thisEntity.getCustomName().getString());
+        if (isChunSik) return;
+
         // [최적화] 이제 비트마스크를 통해 CPU 사이클 소모 없이 즉시 판단합니다.
-        if (EntityFilter.isNoPhysicsTarget((Entity) (Object) this)) {
+        if (EntityFilter.isNoPhysicsTarget(thisEntity)) {
             cir.setReturnValue(false);
         }
     }
@@ -41,7 +46,12 @@ public abstract class ParallelCollisionMixin {
      */
     @Inject(method = "canBeCollidedWith", at = @At("HEAD"), cancellable = true)
     private void liberty$disableCollidable(CallbackInfoReturnable<Boolean> cir) {
-        if (EntityFilter.isNoPhysicsTarget((Entity) (Object) this)) {
+        Entity thisEntity = (Entity) (Object) this;
+
+        boolean isChunSik = thisEntity.hasCustomName() && "춘식이".equals(thisEntity.getCustomName().getString());
+        if (isChunSik) return;
+
+        if (EntityFilter.isNoPhysicsTarget(thisEntity)) {
             cir.setReturnValue(false);
         }
     }

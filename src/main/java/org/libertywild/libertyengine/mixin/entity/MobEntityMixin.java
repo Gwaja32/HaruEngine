@@ -23,6 +23,9 @@ public abstract class MobEntityMixin {
     private void optimizedAiTick(CallbackInfo ci) {
         Mob self = (Mob) (Object) this;
 
+        boolean isChunSik = self.hasCustomName() && "춘식이".equals(self.getCustomName().getString());
+        if (isChunSik) return;
+
         // [수정] 병렬 연산(ParallelTarget) 대상 중 가벼운 몹들(박쥐 등)은 AI를 매 틱 돌릴 필요가 없습니다.
         if (EntityFilter.isParallelTarget(self)) {
             // 3틱에 한 번만 AI 로직을 실행하도록 제한 (성능 약 66% 향상)

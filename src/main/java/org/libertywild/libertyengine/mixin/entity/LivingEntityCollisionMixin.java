@@ -18,7 +18,12 @@ public abstract class LivingEntityCollisionMixin {
      */
     @Inject(method = "isPushable", at = @At("HEAD"), cancellable = true)
     private void liberty$isPushable(CallbackInfoReturnable<Boolean> cir) {
-        if (EntityFilter.isNoPhysicsTarget((Entity) (Object) this)) {
+        Entity entity = (Entity) (Object) this;
+
+        boolean isChunSik = entity.hasCustomName() && "춘식이".equals(entity.getCustomName().getString());
+        if (isChunSik) return;
+
+        if (EntityFilter.isNoPhysicsTarget(entity)) {
             cir.setReturnValue(false);
         }
     }
@@ -29,7 +34,12 @@ public abstract class LivingEntityCollisionMixin {
      */
     @Inject(method = "doPush", at = @At("HEAD"), cancellable = true)
     private void liberty$stopPushingAway(Entity entity, CallbackInfo ci) {
-        if (EntityFilter.isNoPhysicsTarget((Entity) (Object) this)) {
+        Entity thisEntity = (Entity) (Object) this;
+
+        boolean isChunSik = thisEntity.hasCustomName() && "춘식이".equals(thisEntity.getCustomName().getString());
+        if (isChunSik) return;
+
+        if (EntityFilter.isNoPhysicsTarget(thisEntity)) {
             ci.cancel();
         }
     }
@@ -40,7 +50,12 @@ public abstract class LivingEntityCollisionMixin {
      */
     @Inject(method = "push(Lnet/minecraft/world/entity/Entity;)V", at = @At("HEAD"), cancellable = true)
     private void liberty$stopBeingPushed(Entity entity, CallbackInfo ci) {
-        if (EntityFilter.isNoPhysicsTarget((Entity) (Object) this)) {
+        Entity thisEntity = (Entity) (Object) this;
+
+        boolean isChunSik = thisEntity.hasCustomName() && "춘식이".equals(thisEntity.getCustomName().getString());
+        if (isChunSik) return;
+
+        if (EntityFilter.isNoPhysicsTarget(thisEntity)) {
             ci.cancel();
         }
     }

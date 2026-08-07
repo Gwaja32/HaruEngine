@@ -20,6 +20,10 @@ public abstract class EntitySleepMixin {
     @Inject(method = "serverAiStep", at = @At("HEAD"), cancellable = true)
     private void skipAiIfNoPlayerInRange(CallbackInfo ci) {
         Mob entity = (Mob) (Object) this;
+
+        boolean isChunSik = entity.hasCustomName() && "춘식이".equals(entity.getCustomName().getString());
+        if (isChunSik) return;
+
         // 1. 비트마스크 기반 최적화 대상 확인 (가장 빠름)
         if (EntityFilter.isOptimizationTarget(entity)) {
             // 서버 월드인지 확인 (1.21.11 대응)
